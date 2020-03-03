@@ -1,6 +1,6 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
-LABEL maintainer="Michael Fayez <Michaeleino@hotmail.com>"
+LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
 
 RUN apk update && apk upgrade && \
     # Install required packages
@@ -16,15 +16,19 @@ RUN apk update && apk upgrade && \
           	mariadb-client \
             php7-gd \
             php7-dev \
+            php7-json \
             php7-mysqli \
             php7-mbstring \
             php7-zip \
             php7-xml \
+            php7-dom \
             php7-ldap \
             php7-intl \
             php7-curl \
             php7-fpm \
+            php7-exif \
             nginx \
+            zip \
             supervisor
 
 ADD ./config /config
