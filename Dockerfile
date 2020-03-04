@@ -42,16 +42,18 @@ RUN apk update && apk upgrade && \
             ttf-dejavu \
             ttf-freefont \
             ttf-liberation && \
-
+## install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
     curl -Ls $UNO_URL -o /usr/local/bin/unoconv && \
     chmod +x /usr/local/bin/unoconv && \
-    ln -s /usr/bin/python3 /usr/bin/python
+    ln -s /usr/bin/python3 /usr/bin/python && \
 ##TO DO
 ### python3
 ### install OpenCV --> https://pypi.org/project/opencv-python/
 ### pip install opencv-python
 ##
-### install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
+    echo 'manylinux1_compatible = True' > /usr/lib/python3.8/site-packages/_manylinux.py && \
+    python -c 'import sys; sys.path.append(r"/_manylinux.py")' && \
+    pip3 install opencv-python
 
 ADD ./config /config
 
