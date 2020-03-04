@@ -1,4 +1,6 @@
 FROM alpine:3.11
+ARG RSVER=9.2
+ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
 
@@ -29,12 +31,32 @@ RUN apk update && apk upgrade && \
             php7-exif \
             nginx \
             zip \
-            supervisor
+            supervisor \
+            ## add unoconv requirements
+            curl \
+            util-linux \
+            libreoffice-common \
+            libreoffice-writer \
+            ttf-droid-nonlatin \
+            ttf-droid \
+            ttf-dejavu \
+            ttf-freefont \
+            ttf-liberation && \
+
+    curl -Ls $UNO_URL -o /usr/local/bin/unoconv && \
+    chmod +x /usr/local/bin/unoconv && \
+    ln -s /usr/bin/python3 /usr/bin/python
+##TO DO
+### python3
+### install OpenCV --> https://pypi.org/project/opencv-python/
+### pip install opencv-python
+##
+### install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
 
 ADD ./config /config
 
 RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && \
-    svn co https://svn.resourcespace.com/svn/rs/releases/9.1 . && \
+    svn co https://svn.resourcespace.com/svn/rs/releases/$RSVER . && \
     #mkdir filestore && \
     #chmod 777 filestore && \
     chmod -R 750 include && \
@@ -52,8 +74,11 @@ RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && \
     mv /config/rs-nginx.conf /etc/nginx/conf.d/ && \
     mv /config/php.ini /etc/php7/conf.d/ && \
     rm -r /config
-
-#VOLUME ["/var/www/resourcespace/filestore"]
+##Cleanup
+RUN apk del curl && \
+    rm -rf /var/cache/apk/*
+    
+VOLUME ["/var/www/resourcespace/filestore"]
 VOLUME ["/var/log/"]
 EXPOSE 80
 
