@@ -77,9 +77,9 @@ RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && \
 ##Cleanup
 RUN apk del curl && \
     rm -rf /var/cache/apk/*
-    
+
 VOLUME ["/var/www/resourcespace/filestore"]
 VOLUME ["/var/log/"]
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
