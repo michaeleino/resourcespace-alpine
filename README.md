@@ -1,5 +1,5 @@
 # resourcespace
-#### Resourcespace on linux alpine 3.10 
+#### Resourcespace on linux alpine 3.12 
 
 
 using Nginx Webserver,PHP-fpm, crond and supervisor to monitor the processes  
