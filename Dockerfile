@@ -41,7 +41,8 @@ RUN apk update && apk upgrade && \
             ttf-droid \
             ttf-dejavu \
             ttf-freefont \
-            ttf-liberation && \
+            ttf-liberation \
+            cmd:pip3 && \
 ## install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
     curl -Ls $UNO_URL -o /usr/local/bin/unoconv && \
     chmod +x /usr/local/bin/unoconv && \
