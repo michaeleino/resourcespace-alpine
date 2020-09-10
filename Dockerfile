@@ -1,10 +1,12 @@
 FROM alpine:3.12
 ARG RSVER=9.3
-ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
+# ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
-
-RUN apk update && apk upgrade && \
+    #add egde repositories
+RUN echo -e "@edgetesting http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgecomm http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    #update and upgrade
+    apk update && apk upgrade && \
     # Install required packages
     apk add imagemagick \
             ffmpeg \
@@ -42,19 +44,22 @@ RUN apk update && apk upgrade && \
             ttf-dejavu \
             ttf-freefont \
             ttf-liberation \
-            cmd:pip3 && \
+            openexr@edgecomm \
+            opencv@edgetesting \
+            py3-unoconv@edgetesting
+            # && \
 ## install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
-    curl -Ls $UNO_URL -o /usr/local/bin/unoconv && \
-    chmod +x /usr/local/bin/unoconv && \
-    ln -s /usr/bin/python3 /usr/bin/python && \
+    # curl -Ls $UNO_URL -o /usr/local/bin/unoconv && \
+    # chmod +x /usr/local/bin/unoconv && \
+    # ln -s /usr/bin/python3 /usr/bin/python && \
 ##TO DO
 ### python3
 ### install OpenCV --> https://pypi.org/project/opencv-python/
 ### pip install opencv-python
 ##
-    echo 'manylinux1_compatible = True' > /usr/lib/python3.8/site-packages/_manylinux.py && \
-    python -c 'import sys; sys.path.append(r"/_manylinux.py")' && \
-    pip3 install opencv-python
+    # echo 'manylinux1_compatible = True' > /usr/lib/python3.8/site-packages/_manylinux.py && \
+    # python -c 'import sys; sys.path.append(r"/_manylinux.py")' && \
+    # pip3 install opencv-python
 
 ADD ./config /config
 
