@@ -4,7 +4,7 @@ ARG RSVER=9.4
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
     #add egde repositories
-RUN echo -e "@edgetesting http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgecomm http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     #update and upgrade
     apk update && apk upgrade && \
     # Install required packages
@@ -45,9 +45,10 @@ RUN echo -e "@edgetesting http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@e
             ttf-dejavu \
             ttf-freefont \
             ttf-liberation \
-            openexr@edgecomm \
-            opencv@edgetesting \
-            py3-unoconv@edgetesting
+            openexr@edgecommunity \
+            hdf5@edgecommunity \
+            opencv@testing \
+            py3-unoconv@testing
             # && \
 ## install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
     # curl -Ls $UNO_URL -o /usr/local/bin/unoconv && \
