@@ -1,5 +1,5 @@
 FROM alpine:3.12
-ARG RSVER=9.3
+ARG RSVER=9.4
 # ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
@@ -31,6 +31,7 @@ RUN echo -e "@edgetesting http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@e
             php7-curl \
             php7-fpm \
             php7-exif \
+            php7-phar \
             nginx \
             zip \
             supervisor \
