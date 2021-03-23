@@ -32,6 +32,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgec
             php7-fpm \
             php7-exif \
             php7-phar \
+            php-ctype \
             nginx \
             zip \
             supervisor \
