@@ -16,7 +16,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgec
             xpdf \
             perl-image-exiftool \
             subversion \
-          	#poppler-utils \
+          	poppler-utils \
           	mariadb-client \
             php7-gd \
             php7-dev \
@@ -33,6 +33,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgec
             php7-exif \
             php7-phar \
             php-ctype \
+            php-iconv \
             nginx \
             zip \
             supervisor \
