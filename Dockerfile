@@ -1,5 +1,5 @@
 FROM alpine:3.12
-ARG RSVER=9.5
+ARG RSVER=9.6
 # ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
