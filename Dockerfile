@@ -1,10 +1,12 @@
-FROM alpine:3.12
-ARG RSVER=9.6
+ARG RSVERSION=9.6
+ARG ALPINEVERSION=3.14
+
+FROM alpine:$ALPINEVERSION
 # ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
     #add egde repositories
-RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     #update and upgrade
     apk update && apk upgrade && \
     # Install required packages
@@ -47,9 +49,9 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgec
             ttf-dejavu \
             ttf-freefont \
             ttf-liberation \
-            openexr@edgecommunity \
-            hdf5@edgecommunity \
-            opencv@testing \
+            openexr \
+            hdf5 \
+            opencv \
             py3-unoconv@testing
             # && \
 ## install openoffice unoconv --> https://hub.docker.com/r/sfoxdev/unoconv-alpine/dockerfile
@@ -68,7 +70,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n@edgec
 ADD ./config /config
 
 RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && \
-    svn co https://svn.resourcespace.com/svn/rs/releases/$RSVER . && \
+    svn co https://svn.resourcespace.com/svn/rs/releases/$RSVERSION . && \
     #mkdir filestore && \
     #chmod 777 filestore && \
     chmod -R 750 include && \

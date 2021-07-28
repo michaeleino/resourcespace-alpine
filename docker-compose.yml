@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  RS:
+    image: michaeleino/resourcespace-alpine:${RSVERSION}
+    build:
+      context: ../..
+      args:
+        RSVERSION: ${RSVERSION}
+        ALPINEVERSION: ${ALPINEVERSION}
+    restart: unless-stopped
+    volumes:
+     - ${HOSTMEDIADIR}:/var/www/resourcespace/filestore
+     - ${HOSTLOGDIR}:/var/log/
+     - ${HOSTRSCONFIG}:/var/www/resourcespace/include/config.php
+    ports:
+     - "8080:80"
+    hostname: ${HOSTNAME}
+    domainname: ${DOMAINNAME}
