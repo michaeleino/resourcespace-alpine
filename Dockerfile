@@ -79,16 +79,16 @@ RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && pwd && \
     chmod -R 750 include && \
     chown -R nginx:www-data /var/www/resourcespace && \
     echo "creating needed dirs" && \
-    mkdir -p /run/php7 /run/nginx && \
+      mkdir -p /run/php7 /run/nginx && \
     ## replace to enable php-fpm socket and set permission
     sed -i 's/^listen = 127.0.0.1:9000/\;listen = 127.0.0.1:9000\nlisten\=\/run\/php7\/php-fpm.sock\nlisten.owner=nginx\nlisten.group=www-data\nlisten.mode=0660/g' /etc/php7/php-fpm.d/www.conf && \
     sed -i 's/^user = nobody/user = nginx/g' /etc/php7/php-fpm.d/www.conf && \
     sed -i 's/^group = nobody/group = www-data/g' /etc/php7/php-fpm.d/www.conf && \
     ## remove default nginx vhost
-    rm /etc/nginx/conf.d/default.conf && \
+    rm /etc/nginx/http.d/default.conf && \
     ## add supervisord dir
     mv /config/supervisor.d /etc/ && \
-    mv /config/rs-nginx.conf /etc/nginx/conf.d/ && \
+    mv /config/rs-nginx.conf /etc/nginx/http.d/ && \
     mv /config/php.ini /etc/php7/conf.d/ && \
     rm -r /config
 ##Cleanup apk
