@@ -79,7 +79,7 @@ RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && pwd && \
     chmod -R 750 include && \
     chown -R nginx:www-data /var/www/resourcespace && \
     echo "creating needed dirs" && \
-    mkdir /run/php7 /run/nginx && \
+    mkdir -p /run/php7 /run/nginx && \
     ## replace to enable php-fpm socket and set permission
     sed -i 's/^listen = 127.0.0.1:9000/\;listen = 127.0.0.1:9000\nlisten\=\/run\/php7\/php-fpm.sock\nlisten.owner=nginx\nlisten.group=www-data\nlisten.mode=0660/g' /etc/php7/php-fpm.d/www.conf && \
     sed -i 's/^user = nobody/user = nginx/g' /etc/php7/php-fpm.d/www.conf && \
