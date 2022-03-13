@@ -1,5 +1,5 @@
-ARG RSVERSION=9.6
-ARG ALPINEVERSION=3.14
+ARG RSVERSION=9.8
+ARG ALPINEVERSION=3.15
 
 FROM alpine:$ALPINEVERSION
 # ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
@@ -69,13 +69,15 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edge
 
 ADD ./config /config
 
-RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && \
-    svn co https://svn.resourcespace.com/svn/rs/releases/$RSVERSION . && \
+RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && pwd && \
+    echo "will checkout https://svn.resourcespace.com/svn/rs/releases/${RSVERSION}" && \
+    svn co https://svn.resourcespace.com/svn/rs/releases/${RSVERSION} . && \
     #mkdir filestore && \
     #chmod 777 filestore && \
+    echo "done checkout" && \
     chmod -R 750 include && \
     chown -R nginx:www-data /var/www/resourcespace && \
-    #create needed dirs
+    echo "creating needed dirs" && \
     mkdir /run/php7 /run/nginx && \
     ## replace to enable php-fpm socket and set permission
     sed -i 's/^listen = 127.0.0.1:9000/\;listen = 127.0.0.1:9000\nlisten\=\/run\/php7\/php-fpm.sock\nlisten.owner=nginx\nlisten.group=www-data\nlisten.mode=0660/g' /etc/php7/php-fpm.d/www.conf && \
@@ -88,7 +90,7 @@ RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && \
     mv /config/rs-nginx.conf /etc/nginx/conf.d/ && \
     mv /config/php.ini /etc/php7/conf.d/ && \
     rm -r /config
-##Cleanup
+##Cleanup apk
 RUN apk del curl && \
     rm -rf /var/cache/apk/*
 
