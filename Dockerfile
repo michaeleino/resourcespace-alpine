@@ -70,8 +70,8 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edge
 ADD ./config /config
 
 RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && pwd && \
-    echo "will checkout https://svn.resourcespace.com/svn/rs/releases/${RSVERSION}" && \
-    svn co https://svn.resourcespace.com/svn/rs/releases/${RSVERSION} . && \
+    echo "will checkout https://svn.resourcespace.com/svn/rs/releases/$RSVERSION" && \
+    svn co https://svn.resourcespace.com/svn/rs/releases/$RSVERSION . && \
     #mkdir filestore && \
     #chmod 777 filestore && \
     echo "done checkout" && \
