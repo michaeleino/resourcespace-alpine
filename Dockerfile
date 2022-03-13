@@ -1,7 +1,7 @@
-ARG RSVERSION=9.8
 ARG ALPINEVERSION=3.15
 
 FROM alpine:$ALPINEVERSION
+ARG RSVERSION=9.8
 # ARG UNO_URL=https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv
 
 LABEL maintainer="Michael Fayez <michaeleino@hotmail.com>"
@@ -70,6 +70,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edge
 ADD ./config /config
 
 RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && pwd && \
+    echo "RSVERSION= $RSVERSION" && \
     echo "will checkout https://svn.resourcespace.com/svn/rs/releases/$RSVERSION" && \
     svn co https://svn.resourcespace.com/svn/rs/releases/$RSVERSION . && \
     #mkdir filestore && \
