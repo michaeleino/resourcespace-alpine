@@ -1,10 +1,7 @@
-name: Docker ImOrganization access
-@FlexibleEngineGuard FlexibleEngineGuard age CI
-
+name: Docker Image CI
 on:
   push:
     tags: '*.*'
-
 jobs:
   docker:
     runs-on: ubuntu-latest
