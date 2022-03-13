@@ -27,6 +27,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ${{github.repository}}:${{github.ref_name}}
+          tags: michaeleino/resourcespace-alpine:${{github.ref_name}}
             
