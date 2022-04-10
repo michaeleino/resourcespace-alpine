@@ -16,7 +16,9 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edge
           	exiftool \
           	antiword \
             xpdf \
+            poppler-utils \
             perl-image-exiftool \
+            inkscape \
             subversion \
           	poppler-utils \
           	mariadb-client \
@@ -34,6 +36,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edge
             php7-fpm \
             php7-exif \
             php7-phar \
+            php7-apcu \
             php-ctype \
             php-iconv \
             nginx \
@@ -41,6 +44,7 @@ RUN echo -e "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing\\n#@edge
             supervisor \
             ## add unoconv requirements
             curl \
+            wget \
             util-linux \
             libreoffice-common \
             libreoffice-writer \
@@ -77,26 +81,28 @@ RUN mkdir /var/www/resourcespace && cd /var/www/resourcespace && pwd && \
     #chmod 777 filestore && \
     echo "done checkout" && \
     chmod -R 750 include && \
-    chown -R nginx:www-data /var/www/resourcespace && \
+    chown -R nginx:nginx /var/www/resourcespace && \
     echo "creating needed dirs" && \
       mkdir -p /run/php7 /run/nginx && \
     ## replace to enable php-fpm socket and set permission
-    sed -i 's/^listen = 127.0.0.1:9000/\;listen = 127.0.0.1:9000\nlisten\=\/run\/php7\/php-fpm.sock\nlisten.owner=nginx\nlisten.group=www-data\nlisten.mode=0660/g' /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's/^listen = 127.0.0.1:9000/\;listen = 127.0.0.1:9000\nlisten\=\/run\/php7\/php-fpm.sock\nlisten.owner=nginx\nlisten.group=nginx\nlisten.mode=0660/g' /etc/php7/php-fpm.d/www.conf && \
     sed -i 's/^user = nobody/user = nginx/g' /etc/php7/php-fpm.d/www.conf && \
-    sed -i 's/^group = nobody/group = www-data/g' /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's/^group = nobody/group = nginx/g' /etc/php7/php-fpm.d/www.conf && \
     ## remove default nginx vhost
-    rm /etc/nginx/http.d/default.conf && \
+    rm -rf /etc/nginx/http.d/default.conf /var/www/localhost && \
     ## add supervisord dir
     mv /config/supervisor.d /etc/ && \
     mv /config/rs-nginx.conf /etc/nginx/http.d/ && \
     mv /config/php.ini /etc/php7/conf.d/ && \
-    rm -r /config
-##Cleanup apk
-RUN apk del curl && \
-    rm -rf /var/cache/apk/*
+    rm -r /config && \
+    echo -e "#!/bin/sh\nwget -q -r http://localhost/pages/tools/cron_copy_hitcount.php" > /etc/periodic/daily/resourcespace && \
+    chmod a+x /etc/periodic/daily/resourcespace
 
-VOLUME ["/var/www/resourcespace/filestore"]
-VOLUME ["/var/log/"]
+##Cleanup apk
+RUN rm -rf /var/cache/apk/*
+#
+# VOLUME ["/var/www/resourcespace/filestore"]
+# VOLUME ["/var/log/"]
 EXPOSE 80 443
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
